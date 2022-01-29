@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div style="text-align:center">
+    <h1>{{ single_cat }}</h1>
+    {{ single_cat.breed }}
+    {{ single_cat.birth }}
+    {{ single_cat.gender }}
+    {{ single_cat.fur }}
+    {{ single_cat.number }}
+    {{ single_cat.title }}
+    {{ single_cat.father }}
+    {{ single_cat.mother }}
+    {{ single_cat.site }}
+    </div>
+
+{%  endblock %}
