@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+        <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Breed</th>
+           <th>Identification</th>
+          <th>Date of Birth</th>
+          <th>Appearance Code</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for cat in cats %}
+          <tr>
+              <td><a href="{% url 'cat' cat.id%}">{{ cat.name }}</a></td>
+              <td>{{ cat.breed }}</td>
+              <td>{{ cat.number }}</td>
+            <td>{{ cat.birth }}</td>
+            <td>{{ cat.fur }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+
+{%  endblock %}
