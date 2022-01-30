@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 
+
 {% block content %}
 
         <table class="table table-bordered">
@@ -25,5 +26,31 @@
       </tbody>
     </table>
 
+    <nav aria-label="Cat navigation">
+
+          <form class="form-inline" method="post" action="{% url 'cats' %}">
+          {% csrf_token %}
+                      <div class="form-group input-group-sm" style="display:inline-flex; float:left; margin-right:0px;">
+      <input class="form-control me-2" type="search" placeholder="Show Page" aria-label="Search" name="page_search" >
+         <div>
+        <button class="btn btn-dark">Show</button></div>
+        </div>
+          </form>
+
+
+  <ul class="nav justify-content-center">
+      {% if cats.has_previous %}
+          <li class="page-item"><a class="page-link" style="background:#161c2d ; color: white" href="?page=1">First</a></li>
+          <li class="page-item"><a class="page-link" style="background:#161c2d ; color: white" href="?page={{ cats.previous_page_number }} ">Previous</a></li>
+      {% endif %}
+  <li class="page-item active" aria-current="page">
+      <span class="page-link" style="background:white ; color: black; border-color: #161c2d">Current page: {{ cats.number }}</span>
+    </li>
+  {% if cats.has_next %}
+    <li class="page-item"><a class="page-link" style="background:#161c2d ; color: white" href="?page={{ cats.next_page_number}} ">Next</a></li>
+      <li class="page-item"><a class="page-link" style="background:#161c2d ; color: white" href="?page={{ cats.paginator.num_pages}} ">Last</a></li>
+  {% endif %}
+  </ul>
+</nav>
 
 {%  endblock %}
