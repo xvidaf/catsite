@@ -21,27 +21,37 @@ def cat_list(request):
     cat_all = Cat.objects.all()
     if request.method == "GET":
         page = request.GET.get('page', 1)
-    if request.method == "POST":
-        page = request.POST.get('page_search')
-        if not page:
+        paginator = Paginator(cat_all, 50)
+        try:
+            cats = paginator.page(page)
+        except PageNotAnInteger:
+            #cats = paginator.page(1)
             return redirect(request.META.get('HTTP_REFERER'))
-    paginator = Paginator(cat_all, 50)
-    try:
-        cats = paginator.page(page)
-    except PageNotAnInteger:
-        #cats = paginator.page(1)
-        return redirect(request.META.get('HTTP_REFERER'))
-    except EmptyPage:
-        cats = paginator.page(paginator.num_pages)
+        except EmptyPage:
+            cats = paginator.page(paginator.num_pages)
 
-    return render(request, 'cat_list.html', { 'cats': cats })
+        return render(request, 'cat_list.html', { 'cats': cats })
+    else:
+        return redirect(request.META.get('HTTP_REFERER'))
+
 
 def search_cat(request):
-    if request.method == "POST":
-        pageSearch = request.POST.get('cat_search')
-        if pageSearch:
-            print(pageSearch)
-            return render(request, 'search_cat.html', {'pageSearch' : pageSearch})
+    if request.method == "GET":
+        search_term = request.GET.get('search_term', None)
+        if search_term:
+            print(search_term)
+            cat_all = Cat.objects.filter(name__icontains=search_term)
+            paginator = Paginator(cat_all, 1)
+            page = request.GET.get('page', 1)
+            print(page)
+            try:
+                cats = paginator.page(page)
+            except PageNotAnInteger:
+                # cats = paginator.page(1)
+                return redirect(request.META.get('HTTP_REFERER'))
+            except EmptyPage:
+                cats = paginator.page(paginator.num_pages)
+            return render(request, 'cat_list_searched.html', {'cats': cats, 'searched_term': search_term})
         else:
             return redirect(request.META.get('HTTP_REFERER'))
     else:
