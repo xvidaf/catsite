@@ -1,7 +1,42 @@
 {% extends 'base.html' %}
 
+
 {% block content %}
-
-    <h1>Advanced search is not implemented yet, stay tuned!</h1>
-
+    <form method="get" action="{% url 'search_cat' %}">
+      <div class="form-group">
+        <label>Name</label>
+        <input class="form-control" name="cat_name" id="cat_name" aria-describedby="catHelp" placeholder="Enter the Name of the Cat">
+        <small id="catHelp" class="form-text text-muted">Leave Blank for x</small>
+      </div>
+      <div class="form-group">
+        <label>Identification</label>
+        <input class="form-control" name="cat_ID" id="cat_ID" aria-describedby="catHelp" placeholder="Enter the Identification Number of the Cat">
+        <small id="catHelp" class="form-text text-muted">Leave Blank for x</small>
+      </div>
+      <div class="form-group">
+        <label>Gender</label>
+        <select name="cat_gender" id="cat_gender">
+          <option value="">Unspecified</option>
+          <option value="Hane">Male/Hane</option>
+          <option value="Hona">Female/Hona</option>
+        </select>
+      </div>
+       <div class="form-group">
+        <label>Breed</label>
+        <input class="form-control" name="cat_breed" id="cat_breed" aria-describedby="catHelp" placeholder="Enter the breed of the Cat">
+        <small id="catHelp" class="form-text text-muted">Leave Blank for x</small>
+      </div>
+       <div class="form-group">
+        <label>Birthdate</label>
+        <input class="form-control" type="date" name="cat_date" id="cat_date" aria-describedby="catHelp">
+        <small id="catHelp" class="form-text text-muted">Leave Blank for x</small>
+      </div>
+       <div class="form-group">
+        <label>Fur Code</label>
+        <input class="form-control" name="cat_fur" id="cat_fur" aria-describedby="catHelp" placeholder="Enter the fur code of the Cat">
+        <small id="catHelp" class="form-text text-muted">Leave Blank for x</small>
+      </div>
+      <button class="btn btn-dark">Search</button>
+    </form>
 {%  endblock %}
+

@@ -31,7 +31,13 @@
           <form class="form-inline" method="get" action="{% url 'search_cat' %}">
                       <div class="form-group input-group-sm" style="display:inline-flex; float:left; margin-right:0px;">
       <input class="form-control me-2" type="search" placeholder="Show Page" aria-label="Search" name="page" >
-          <input type="hidden" name="search_term" value={{ searched_term }}>
+          <input type="hidden" name="cat_name" value={{ searched_term }}>
+          <input type="hidden" name="cat_id" value={{ cat_id }}>
+          <input type="hidden" name="cat_gender" value={{ cat_gender }}>
+          <input type="hidden" name="cat_breed" value={{ cat_breed }}>
+          <input type="hidden" name="cat_date" value={{ cat_date }}>
+          <input type="hidden" name="cat_fur" value={{ cat_fur }}>
+
          <div>
         <button class="btn btn-dark">Show</button></div>
         </div>
@@ -40,15 +46,15 @@
 
   <ul class="nav justify-content-center">
       {% if cats.has_previous %}
-          <li class="page-item"><a class="page-link" style="background:#161c2d ; color: white" href="?page=1&search_term={{ searched_term }}">First</a></li>
-          <li class="page-item"><a class="page-link" style="background:#161c2d ; color: white" href="?page={{ cats.previous_page_number }}&search_term={{ searched_term }}">Previous</a></li>
+          <li class="page-item"><a class="page-link" style="background:#161c2d ; color: white" href="?page=1&cat_name={{ searched_term }}&cat_ID={{ cat_id }}&cat_gender={{ cat_gender }}&cat_breed={{ cat_breed }}&cat_date={{ cat_date }}&cat_fur={{ cat_fur }}">First</a></li>
+          <li class="page-item"><a class="page-link" style="background:#161c2d ; color: white" href="?page={{ cats.previous_page_number }}&&cat_name={{ searched_term }}&cat_ID={{ cat_id }}&cat_gender={{ cat_gender }}&cat_breed={{ cat_breed }}&cat_date={{ cat_date }}&cat_fur={{ cat_fur }}">Previous</a></li>
       {% endif %}
   <li class="page-item active" aria-current="page">
       <span class="page-link" style="background:white ; color: black; border-color: #161c2d">Current page: {{ cats.number }}</span>
     </li>
   {% if cats.has_next %}
-    <li class="page-item"><a class="page-link" style="background:#161c2d ; color: white" href="?page={{ cats.next_page_number}}&search_term={{ searched_term }}">Next</a></li>
-      <li class="page-item"><a class="page-link" style="background:#161c2d ; color: white" href="?page={{ cats.paginator.num_pages}}&search_term={{ searched_term }}">Last</a></li>
+    <li class="page-item"><a class="page-link" style="background:#161c2d ; color: white" href="?page={{ cats.next_page_number}}&cat_name={{ searched_term }}&cat_ID={{ cat_id }}&cat_gender={{ cat_gender }}&cat_breed={{ cat_breed }}&cat_date={{ cat_date }}&cat_fur={{ cat_fur }}">Next</a></li>
+      <li class="page-item"><a class="page-link" style="background:#161c2d ; color: white" href="?page={{ cats.paginator.num_pages}}&cat_name={{ searched_term }}&cat_ID={{ cat_id }}&cat_gender={{ cat_gender }}&cat_breed={{ cat_breed }}&cat_date={{ cat_date }}&cat_fur={{ cat_fur }}">Last</a></li>
   {% endif %}
   </ul>
 </nav>
