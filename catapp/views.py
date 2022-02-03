@@ -21,6 +21,7 @@ def cat_list(request):
     if request.method == "GET":
         page = request.GET.get('page', 1)
         paginator = Paginator(cat_all, 50)
+        cat_count = cat_all.count()
         try:
             cats = paginator.page(page)
         except PageNotAnInteger:
@@ -29,7 +30,7 @@ def cat_list(request):
         except EmptyPage:
             cats = paginator.page(paginator.num_pages)
 
-        return render(request, 'cat_list.html', { 'cats': cats })
+        return render(request, 'cat_list.html', { 'cats': cats, 'cat_count': cat_count})
     else:
         return redirect(request.META.get('HTTP_REFERER'))
 
@@ -52,13 +53,13 @@ def search_cat(request):
         if cat_gender:
             cat_all = cat_all.filter(gender=cat_gender)
         if cat_breed:
-            cat_all = cat_all.filter(breed=cat_breed)
+            cat_all = cat_all.filter(breed__icontains=cat_breed)
         if cat_date:
             cat_all = cat_all.filter(birth=cat_date)
         if cat_fur:
             cat_all = cat_all.filter(fur__icontains=cat_fur)
-
-        paginator = Paginator(cat_all, 1)
+        cat_count = cat_all.count()
+        paginator = Paginator(cat_all, 50)
         page = request.GET.get('page', 1)
         print(page)
         try:
@@ -71,7 +72,8 @@ def search_cat(request):
         return render(request, 'cat_list_searched.html', {'cats': cats, 'searched_term': search_term,
                                                           'cat_id': cat_id, 'cat_gender': cat_gender,
                                                           'cat_breed': cat_id,
-                                                          'cat_date': cat_date, 'cat_fur': cat_fur})
+                                                          'cat_date': cat_date, 'cat_fur': cat_fur,
+                                                          'cat_count': cat_count})
     else:
         return redirect(request.META.get('HTTP_REFERER'))
 
