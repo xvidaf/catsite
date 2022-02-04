@@ -2,18 +2,19 @@
 
 
 {% block content %}
+    <div class="container">
     <form method="get" action="{% url 'search_cat' %}">
-      <div class="form-group">
+      <div class="mb-3">
         <label>Name</label>
         <input class="form-control" name="cat_name" id="cat_name" aria-describedby="catHelp" placeholder="Enter the Name of the Cat">
-        <small id="catHelp" class="form-text text-muted">Leave Blank for x</small>
+        <small id="catHelp" class="form-text text-muted">E.g Praha Singh</small>
       </div>
-      <div class="form-group">
+      <div class="mb-3">
         <label>Identification</label>
         <input class="form-control" name="cat_ID" id="cat_ID" aria-describedby="catHelp" placeholder="Enter the Identification Number of the Cat">
-        <small id="catHelp" class="form-text text-muted">Leave Blank for x</small>
+        <small id="catHelp" class="form-text text-muted">E.g (SE)SVERAK LO 12311</small>
       </div>
-      <div class="form-group">
+      <div class="mb-3">
         <label>Gender</label>
         <select name="cat_gender" id="cat_gender">
           <option value="">Unspecified</option>
@@ -21,22 +22,34 @@
           <option value="Hona">Female/Hona</option>
         </select>
       </div>
-       <div class="form-group">
+       <div class="mb-3">
         <label>Breed</label>
         <input class="form-control" name="cat_breed" id="cat_breed" aria-describedby="catHelp" placeholder="Enter the breed of the Cat">
-        <small id="catHelp" class="form-text text-muted">Leave Blank for x</small>
+        <small id="catHelp" class="form-text text-muted">E.g Helig birma (SBI)</small>
       </div>
-       <div class="form-group">
-        <label>Birthdate</label>
-        <input class="form-control" type="date" name="cat_date" id="cat_date" aria-describedby="catHelp">
-        <small id="catHelp" class="form-text text-muted">Leave Blank for x</small>
+        <div class="mb-3">
+       <div class="row">
+           <div class="col">
+            <label>Exact Birthdate</label>
+            <input class="form-control" type="date" name="cat_date" id="cat_date" aria-describedby="catHelp">
+           </div>
+           <div class="col">
+            <label>Birthdate Before</label>
+            <input class="form-control" type="date" name="cat_date_before" id="cat_date_before" aria-describedby="catHelp">
+           </div>
+           <div class="col">
+            <label>Birthdate After</label>
+            <input class="form-control" type="date" name="cat_date_after" id="cat_date_after" aria-describedby="catHelp">
+           </div>
       </div>
-       <div class="form-group">
+        </div>
+       <div class="mb-3">
         <label>Fur Code</label>
         <input class="form-control" name="cat_fur" id="cat_fur" aria-describedby="catHelp" placeholder="Enter the fur code of the Cat">
-        <small id="catHelp" class="form-text text-muted">Leave Blank for x</small>
+        <small id="catHelp" class="form-text text-muted">E.g brunmaskad (n)</small>
       </div>
       <button class="btn btn-dark">Search</button>
     </form>
+    </div>
 {%  endblock %}
 

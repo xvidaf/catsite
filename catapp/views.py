@@ -43,6 +43,8 @@ def search_cat(request):
         cat_breed = request.GET.get('cat_breed', "")
         cat_date = request.GET.get('cat_date', "")
         cat_fur = request.GET.get('cat_fur', "")
+        cat_date_before = request.GET.get('cat_date_before', "")
+        cat_date_after = request.GET.get('cat_date_after', "")
         print(search_term)
         cat_all = Cat.objects.all()
 
@@ -58,6 +60,11 @@ def search_cat(request):
             cat_all = cat_all.filter(birth=cat_date)
         if cat_fur:
             cat_all = cat_all.filter(fur__icontains=cat_fur)
+        if cat_date_before:
+            cat_all = cat_all.filter(birth__lte=cat_date_before)
+        if cat_date_after:
+            cat_all = cat_all.filter(birth__gte=cat_date_after)
+
         cat_count = cat_all.count()
         paginator = Paginator(cat_all, 50)
         page = request.GET.get('page', 1)
@@ -73,7 +80,8 @@ def search_cat(request):
                                                           'cat_id': cat_id, 'cat_gender': cat_gender,
                                                           'cat_breed': cat_id,
                                                           'cat_date': cat_date, 'cat_fur': cat_fur,
-                                                          'cat_count': cat_count})
+                                                          'cat_count': cat_count, 'cat_date_before': cat_date_before,
+                                                          'cat_date_after': cat_date_after})
     else:
         return redirect(request.META.get('HTTP_REFERER'))
 
