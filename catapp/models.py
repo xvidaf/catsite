@@ -9,7 +9,7 @@ class Cat(models.Model):
     gender = models.CharField('Gender of the cat', max_length=100, null=True)
     fur = models.CharField('Fur code of the cat', max_length=100, null=True)
     number = models.CharField('Identification number of the cat', max_length=200, null=True)
-    title = models.CharField('Titles of the cat', max_length=50, null=True)
+    title = models.CharField('Titles of the cat', max_length=100, null=True)
     father = models.CharField('Identification of the Father of the cat', max_length=200, null=True)
     mother = models.CharField('Identification of the Mother of the cat', max_length=200, null=True)
     site = models.CharField('Site from which the cat is from', max_length=20, null=True)

@@ -13,6 +13,18 @@
     {{ single_cat.father }}
     {{ single_cat.mother }}
     {{ single_cat.site }}
+    <h1>FATHER TEST</h1>
+    {% if cat_father.id %}
+        <td><a href="{% url 'cat' cat_father.id%}">{{ cat_father.name }}</a></td>
+    {% else %}
+        No father found
+    {% endif %}
+    <h1>MOTHER TEST</h1>
+    {% if cat_mother.id %}
+        <td><a href="{% url 'cat' cat_mother.id%}">{{ cat_mother.name }}</a></td>
+    {% else %}
+        No mother found
+    {% endif %}
     </div>
 
 {%  endblock %}

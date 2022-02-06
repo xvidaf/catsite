@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from .models import Cat
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .forms import SearchForm
-
+import re
 
 def home(request):
     return render(request, 'home.html', {})
@@ -12,7 +12,27 @@ def home(request):
 def cat(request, cat_id):
     try:
         single_cat = Cat.objects.get(pk=cat_id)
-        return render(request, 'cat.html', {'single_cat': single_cat})
+        if single_cat.father:
+            try:
+                # Had to remove the parenthesis for a whole word match to work
+                #cat_father = Cat.objects.get(number__icontains=single_cat.father)
+                cat_father = Cat.objects.get(number__iregex=r"\y{0}\y".format(re.sub(r'\([^)]*\)', '', single_cat.father)))
+            except Cat.DoesNotExist:
+                cat_father = None
+        else:
+            cat_father = None
+        if single_cat.mother:
+            try:
+                #Had to remove the parenthesis for a whole word match to work
+                #cat_mother = Cat.objects.get(number__icontains=single_cat.mother)
+                cat_mother = Cat.objects.get(number__iregex=r"\y{0}\y".format(re.sub(r'\([^)]*\)', '', single_cat.mother)))
+            except Cat.DoesNotExist:
+                cat_mother = None
+        else:
+            cat_mother = None
+        return render(request, 'cat.html', {'single_cat': single_cat,
+                                            'cat_father': cat_father,
+                                            'cat_mother': cat_mother})
     except Cat.DoesNotExist:
         raise Http404("Cat does not exist")
 
@@ -38,14 +58,14 @@ def cat_list(request):
 def search_cat(request):
     if request.method == "GET":
         search_term = request.GET.get('cat_name', "")
-        cat_id = request.GET.get('cat_id', "")
+        cat_id = request.GET.get('cat_ID', "")
         cat_gender = request.GET.get('cat_gender', "")
         cat_breed = request.GET.get('cat_breed', "")
         cat_date = request.GET.get('cat_date', "")
         cat_fur = request.GET.get('cat_fur', "")
         cat_date_before = request.GET.get('cat_date_before', "")
         cat_date_after = request.GET.get('cat_date_after', "")
-        print(search_term)
+        print(cat_id)
         cat_all = Cat.objects.all()
 
         if search_term:
