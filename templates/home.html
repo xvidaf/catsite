@@ -1,7 +1,41 @@
 {% extends 'base.html' %}
 
+
 {% block content %}
 
-    <h1>Hello World!</h1>
-
+<body>
+<h1>TEST FOR CAT FAMILY TREE</h1>
+<div class="container">
+    <ul class="list-group">
+        <li class="list-group-item"><a class="page-link" href="{% url 'cats' %}">Cat1</a>
+            <ul class="list-group">
+                <li class="list-group-item">CatFather
+                    <ul class="list-group">
+                        <li class="list-group-item">CatFatherFather<ul class="list-group">
+                        <li class="list-group-item">CatFatherFather</li>
+                        <li class="list-group-item">CatFatherMother</li>
+                    </ul></li>
+                        <li class="list-group-item">CatFatherMother<ul class="list-group">
+                        <li class="list-group-item">CatFatherFather</li>
+                        <li class="list-group-item">CatFatherMother</li>
+                    </ul></li>
+                    </ul>
+                </li>
+                <li class="list-group-item">CatMother
+                    <ul class="list-group">
+                        <li class="list-group-item">CatMotherFather<ul class="list-group">
+                        <li class="list-group-item">CatFatherFather</li>
+                        <li class="list-group-item">CatFatherMother</li>
+                    </ul></li>
+                        <li class="list-group-item">CatMotherMother<ul class="list-group">
+                        <li class="list-group-item">CatFatherFather</li>
+                        <li class="list-group-item">CatFatherMother</li>
+                    </ul></li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>
+</body>
 {%  endblock %}

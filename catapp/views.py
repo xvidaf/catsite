@@ -1,3 +1,4 @@
+from django.db.models import F
 from django.http import Http404
 from django.shortcuts import render, redirect
 from .models import Cat
@@ -37,7 +38,7 @@ def cat(request, cat_id):
         raise Http404("Cat does not exist")
 
 def cat_list(request):
-    cat_all = Cat.objects.all()
+    cat_all = Cat.objects.all().order_by('id')
     if request.method == "GET":
         page = request.GET.get('page', 1)
         paginator = Paginator(cat_all, 50)
@@ -65,9 +66,12 @@ def search_cat(request):
         cat_fur = request.GET.get('cat_fur', "")
         cat_date_before = request.GET.get('cat_date_before', "")
         cat_date_after = request.GET.get('cat_date_after', "")
-        print(cat_id)
-        cat_all = Cat.objects.all()
-
+        cat_order_by = request.GET.get('cat_order_by', "id")
+        cat_order = request.GET.get('cat_order', "")
+        if cat_order == "-":
+            cat_all = Cat.objects.all().order_by(F(cat_order_by).desc(nulls_last=True))#(cat_order+cat_order_by)
+        else:
+            cat_all = Cat.objects.all().order_by(F(cat_order_by).asc(nulls_last=True))  # (cat_order+cat_order_by)
         if search_term:
             cat_all = cat_all.filter(name__icontains=search_term)
         if cat_id:
@@ -101,7 +105,8 @@ def search_cat(request):
                                                           'cat_breed': cat_id,
                                                           'cat_date': cat_date, 'cat_fur': cat_fur,
                                                           'cat_count': cat_count, 'cat_date_before': cat_date_before,
-                                                          'cat_date_after': cat_date_after})
+                                                          'cat_date_after': cat_date_after,
+                                                          'cat_order': cat_order, 'cat_order_by': cat_order_by})
     else:
         return redirect(request.META.get('HTTP_REFERER'))
 

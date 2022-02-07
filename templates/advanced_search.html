@@ -48,7 +48,28 @@
         <input class="form-control" name="cat_fur" id="cat_fur" aria-describedby="catHelp" placeholder="Enter the fur code of the Cat">
         <small id="catHelp" class="form-text text-muted">E.g brunmaskad (n)</small>
       </div>
+        <div class="mb-3">
+        <label>Order By</label>
+        <select name="cat_order_by" id="cat_order_by">
+          <option value="id">Unspecified</option>
+          <option value="id">ID</option>
+          <option value="name">Name</option>
+            <option value="birth">Date of Birth</option>
+            <option value="breed">Breed</option>
+        </select>
+            <small id="catHelp" class="form-text text-muted">Default by ID</small>
+      </div>
+              <div class="mb-3">
+        <label>Order</label>
+        <select name="cat_order" id="cat_order">
+          <option value="">Unspecified</option>
+          <option value="">Ascending</option>
+          <option value="-">Descending</option>
+        </select>
+                  <small id="catHelp" class="form-text text-muted">Default Ascending</small>
+      </div>
       <button class="btn btn-dark">Search</button>
+
     </form>
     </div>
 {%  endblock %}
