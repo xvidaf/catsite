@@ -4,8 +4,24 @@
 {% block content %}
 
 <body>
-<h1>TEST FOR CAT FAMILY TREE</h1>
-<div class="container">
+<div class="container" style="text-align: center">
+    <h1>Welcome to the Catsite!</h1>
+    <h2>The site currently holds {{ cat_count }} cats.</h2>
+
+    <h2>The database currently contains the following breeds:</h2>
+    <ul class="list-group">
+    {% for breed in cat_breed_values %}
+        <li class="list-group-item">{{ breed }}</li>
+    {% endfor %}
+    </ul>
+
+    <h2>The distribution of the cat breeds:</h2>
+    {{ cat_breed_graph|safe }}
+    <h2>The distribution of cat genders:</h2>
+    {{ cat_gender_graph|safe }}
+    <h2>Cats registered by birthdate:</h2>
+    {{ cat_year_graph|safe }}
+    <!---
     <ul class="list-group">
         <li class="list-group-item"><a class="page-link" href="{% url 'cats' %}">Cat1</a>
             <ul class="list-group">
@@ -36,6 +52,7 @@
             </ul>
         </li>
     </ul>
+ --->
 </div>
 </body>
 {%  endblock %}

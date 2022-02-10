@@ -1,13 +1,69 @@
-from django.db.models import F
+from datetime import datetime
+
+from django.db.models import F, Count
+from django.db.models.functions import ExtractYear
 from django.http import Http404
 from django.shortcuts import render, redirect
 from .models import Cat
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .forms import SearchForm
 import re
+import plotly.express as px
+import pandas
 
 def home(request):
-    return render(request, 'home.html', {})
+    cat_count = Cat.objects.all().count()
+    # Cat breeds
+    cat_breed_count = Cat.objects.values('breed').annotate(number = Count('breed'))
+    cat_breed_values = Cat.objects.order_by('breed').values_list('breed', flat=True).distinct()
+    #Remove values () and ( ) and replace them for readability
+    cat_breed_values= list(cat_breed_values)
+    cat_breed_values.remove('()')
+    cat_breed_values.remove('( )')
+    cat_breed_values.append('Unspecified')
+
+    #Convert to two lists
+    names = []
+    values = []
+    other_count = 0
+    for count in cat_breed_count:
+        if count['number'] >= 5000:
+            names.append(count['breed'])
+            values.append(count['number'])
+        else:
+            other_count = other_count + count['number']
+    #Append cat breeds with less than 1% distribution
+    names.append("Other")
+    values.append(other_count)
+
+    fig = px.pie(values=values, names=names, title='Breed Distribution')
+    cat_breed_graph = fig.to_html()
+
+    #Cat genders
+    cat_gender_count = Cat.objects.values('gender').annotate(number=Count('gender'))
+    names = []
+    values = []
+    for count in cat_gender_count:
+        names.append(count['gender'])
+        values.append(count['number'])
+    fig = px.pie(values=values, names=names, title='Gender Distribution')
+    cat_gender_graph = fig.to_html()
+
+    #Birthyears
+    cat_birth_count = Cat.objects.annotate(Year=ExtractYear('birth'))
+    cat_birth_count = cat_birth_count.values('Year').annotate(number=Count('Year'))
+    names = []
+    values = []
+    #lessthan1960 = 0
+    for count in cat_birth_count:
+        if count['Year'] and count['Year'] <= datetime.today().year:
+            names.append(count['Year'])
+            values.append(count['number'])
+    fig = px.bar(x=names, y=values, title='Registrations by Year')
+    cat_year_graph = fig.to_html()
+    return render(request, 'home.html', {'cat_count': cat_count, 'cat_breed_graph': cat_breed_graph,
+                                         'cat_breed_values': cat_breed_values, 'cat_gender_graph': cat_gender_graph,
+                                         'cat_year_graph': cat_year_graph})
 
 
 def cat(request, cat_id):
