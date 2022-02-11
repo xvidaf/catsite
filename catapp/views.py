@@ -66,30 +66,62 @@ def home(request):
                                          'cat_year_graph': cat_year_graph})
 
 
-def cat(request, cat_id):
-    try:
-        single_cat = Cat.objects.get(pk=cat_id)
-        if single_cat.father:
+def findParent(parent_id):
+    if parent_id:
+        # We try an exact match, if unsuccessful we try a word match
+        try:
+            parent = Cat.objects.get(number=parent_id)
+        except Cat.DoesNotExist:
             try:
                 # Had to remove the parenthesis for a whole word match to work
-                #cat_father = Cat.objects.get(number__icontains=single_cat.father)
-                cat_father = Cat.objects.get(number__iregex=r"\y{0}\y".format(re.sub(r'\([^)]*\)', '', single_cat.father)))
+                parent = Cat.objects.get(number__iregex=r"\y{0}\y".format(re.sub(r'\([^)]*\)', '', parent_id)))
             except Cat.DoesNotExist:
-                cat_father = None
+                parent = None
+    else:
+        parent = None
+    return parent
+
+
+def cat(request, cat_id):
+    try:
+        row1 = []
+        row2 = []
+        row3 = []
+        single_cat = Cat.objects.get(pk=cat_id)
+        if single_cat.father:
+            row1.append(findParent(single_cat.father))
         else:
-            cat_father = None
+            row1.append(None)
         if single_cat.mother:
-            try:
-                #Had to remove the parenthesis for a whole word match to work
-                #cat_mother = Cat.objects.get(number__icontains=single_cat.mother)
-                cat_mother = Cat.objects.get(number__iregex=r"\y{0}\y".format(re.sub(r'\([^)]*\)', '', single_cat.mother)))
-            except Cat.DoesNotExist:
-                cat_mother = None
+            row1.append(findParent(single_cat.mother))
         else:
-            cat_mother = None
+            row1.append(None)
+
+        for parent in row1:
+            if parent:
+                row2.append(findParent(parent.father))
+                row2.append(findParent(parent.mother))
+            else:
+                row2.append(None)
+                row2.append(None)
+        for parent in row2:
+            if parent:
+                row3.append(findParent(parent.father))
+                row3.append(findParent(parent.mother))
+            else:
+                row3.append(None)
+                row3.append(None)
+
         return render(request, 'cat.html', {'single_cat': single_cat,
-                                            'cat_father': cat_father,
-                                            'cat_mother': cat_mother})
+                                            'cat_father': row1[0],
+                                            'cat_mother': row1[1],
+                                            'cat_grandfather1': row2[0],'cat_grandmother1': row2[1],
+                                            'cat_grandfather2': row2[2],'cat_grandmother2': row2[3],
+                                            'cat_grandfather1_father': row3[0],'cat_grandfather1_mother': row3[1],
+                                            'cat_grandmother1_father': row3[2],'cat_grandmother1_mother': row3[3],
+                                            'cat_grandfather2_father': row3[4], 'cat_grandfather2_mother': row3[5],
+                                            'cat_grandmother2_father': row3[6], 'cat_grandmother2_mother': row3[7]})
+
     except Cat.DoesNotExist:
         raise Http404("Cat does not exist")
 
