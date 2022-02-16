@@ -77,6 +77,9 @@ def findParent(parent_id):
                 parent = Cat.objects.get(number__iregex=r"\y{0}\y".format(re.sub(r'\([^)]*\)', '', parent_id)))
             except Cat.DoesNotExist:
                 parent = None
+        except Cat.MultipleObjectsReturned:
+            #Should be fine, most same matches are duplicates, not different cats with same id
+            parent = Cat.objects.filter(number=parent_id).first()
     else:
         parent = None
     return parent
