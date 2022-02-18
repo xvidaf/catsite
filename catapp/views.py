@@ -61,9 +61,41 @@ def home(request):
             values.append(count['number'])
     fig = px.bar(x=names, y=values, title='Registrations by Year')
     cat_year_graph = fig.to_html()
+
+    #Appearances
+    cat_appearance_count = Cat.objects.values('fur').annotate(number=Count('fur')).order_by('-number')
+    #Percentage of columns filled
+    cat_name = Cat.objects.exclude(name__isnull=True).exclude(name__exact='').count()
+    print(cat_name)
+    cat_breed = Cat.objects.exclude(breed__isnull=True).exclude(breed__exact='').count()
+    print(cat_breed)
+    cat_birth = Cat.objects.exclude(birth__isnull=True).count()
+    print(cat_birth)
+    cat_gender = Cat.objects.exclude(gender__isnull=True).exclude(gender__exact='').count()
+    print(cat_gender)
+    cat_fur = Cat.objects.exclude(fur__isnull=True).exclude(fur__exact='').count()
+    print(cat_fur)
+    cat_number = Cat.objects.exclude(number__isnull=True).exclude(number__exact='').count()
+    print(cat_number)
+    cat_title = Cat.objects.exclude(title__isnull=True).exclude(title__exact='').count()
+    print(cat_title)
+    cat_father = Cat.objects.exclude(father__isnull=True).exclude(father__exact='').count()
+    print(cat_father)
+    cat_mother = Cat.objects.exclude(mother__isnull=True).exclude(mother__exact='').count()
+    print(cat_mother)
+    cat_site = Cat.objects.exclude(site__isnull=True).exclude(site__exact='').count()
+    print(cat_site)
+    cat_health = Cat.objects.exclude(health__isnull=True).exclude(health__exact='').count()
+    print(cat_health)
     return render(request, 'home.html', {'cat_count': cat_count, 'cat_breed_graph': cat_breed_graph,
                                          'cat_breed_values': cat_breed_values, 'cat_gender_graph': cat_gender_graph,
-                                         'cat_year_graph': cat_year_graph})
+                                         'cat_year_graph': cat_year_graph, 'cat_appearance_graph': cat_appearance_count[1:20],
+                                         'cat_name': round(cat_name/cat_count*100, 2),'cat_breed': round(cat_breed/cat_count*100, 2),
+                                         'cat_birth': round(cat_birth/cat_count*100, 2),'cat_gender': round(cat_gender/cat_count*100, 2),
+                                         'cat_fur': round(cat_fur/cat_count*100, 2),'cat_number': round(cat_number/cat_count*100, 2),
+                                         'cat_title': round(cat_title/cat_count*100, 2),'cat_father': round(cat_father/cat_count*100, 2),
+                                         'cat_mother': round(cat_mother/cat_count*100, 2),'cat_site': round(cat_site/cat_count*100, 2),
+                                         'cat_health': round(cat_health/cat_count*100, 2)})
 
 
 def findParent(parent_id):

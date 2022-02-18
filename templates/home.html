@@ -21,6 +21,37 @@
     {{ cat_gender_graph|safe }}
     <h2>Cats registered by birthdate:</h2>
     {{ cat_year_graph|safe }}
+    <h2>Top 20 cat fur patterns</h2>
+    <table class="table table-bordered">
+    <thead>
+        <tr>
+          <th>Fur</th>
+          <th>Amount</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for cat in cat_appearance_graph %}
+          <tr>
+            <td>{{ cat.fur }}</td>
+            <td>{{ cat.number }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <h2>Database fullness(rounded to 2 decimals):</h2>
+    <ul class="list-group">
+        <li class="list-group-item">{{ cat_name }}% of entries have a name</li>
+        <li class="list-group-item">{{ cat_breed }}% of entries have a breed</li>
+        <li class="list-group-item">{{ cat_birth }}% of entries have a birthdate</li>
+        <li class="list-group-item">{{ cat_gender }}% of entries have a gender</li>
+        <li class="list-group-item">{{ cat_fur }}% of entries have a appearance code</li>
+        <li class="list-group-item">{{ cat_number }}% of entries have a id</li>
+        <li class="list-group-item">{{ cat_title }}% of entries have a title</li>
+        <li class="list-group-item">{{ cat_father }}% of entries have a father</li>
+        <li class="list-group-item">{{ cat_mother }}% of entries have a mother</li>
+        <li class="list-group-item">{{ cat_health }}% of entries have health information</li>
+        <li class="list-group-item">{{ cat_site }}% of entries have their origin recorded</li>
+    </ul>
     <!---
     <ul class="list-group">
         <li class="list-group-item"><a class="page-link" href="{% url 'cats' %}">Cat1</a>
