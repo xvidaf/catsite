@@ -78,10 +78,13 @@
             }
     </style>
 </head>
+
+<! --- SOURCE FOR CSS: https://codepen.io/ross-angus/pen/jwxMjL, done some minor adjustments --->
+
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="container">
+    <div class="container" style="text-align: center">
     <h1>{{ single_cat }}</h1>
     <table class="table table-bordered">
       <thead>
@@ -129,7 +132,14 @@
           </tr>
       </tbody>
     </table>
+    <h2>The cat has {{ cat_children_amount }} children</h2>
+    <ul class="list-group">
+        {% for cat in cat_children %}
+            <li class="list-group-item"><a href="{% url 'cat' cat.id%}">{{ cat.name }}</a></li>
+        {% endfor %}
+    </ul>
     <div style="text-align: center">
+    <h2>Family Tree</h2>
     <ul class="tree" style="align-content: center">
        <li>
           <span><a href="{% url 'cat' single_cat.id%}">{{ single_cat }}</a></span>

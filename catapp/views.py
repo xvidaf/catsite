@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from django.db.models import F, Count
+from django.db.models import F, Count, Q
 from django.db.models.functions import ExtractYear
 from django.http import Http404
 from django.shortcuts import render, redirect
@@ -66,27 +66,16 @@ def home(request):
     cat_appearance_count = Cat.objects.values('fur').annotate(number=Count('fur')).order_by('-number')
     #Percentage of columns filled
     cat_name = Cat.objects.exclude(name__isnull=True).exclude(name__exact='').count()
-    print(cat_name)
     cat_breed = Cat.objects.exclude(breed__isnull=True).exclude(breed__exact='').count()
-    print(cat_breed)
     cat_birth = Cat.objects.exclude(birth__isnull=True).count()
-    print(cat_birth)
     cat_gender = Cat.objects.exclude(gender__isnull=True).exclude(gender__exact='').count()
-    print(cat_gender)
     cat_fur = Cat.objects.exclude(fur__isnull=True).exclude(fur__exact='').count()
-    print(cat_fur)
     cat_number = Cat.objects.exclude(number__isnull=True).exclude(number__exact='').count()
-    print(cat_number)
     cat_title = Cat.objects.exclude(title__isnull=True).exclude(title__exact='').count()
-    print(cat_title)
     cat_father = Cat.objects.exclude(father__isnull=True).exclude(father__exact='').count()
-    print(cat_father)
     cat_mother = Cat.objects.exclude(mother__isnull=True).exclude(mother__exact='').count()
-    print(cat_mother)
     cat_site = Cat.objects.exclude(site__isnull=True).exclude(site__exact='').count()
-    print(cat_site)
     cat_health = Cat.objects.exclude(health__isnull=True).exclude(health__exact='').count()
-    print(cat_health)
     return render(request, 'home.html', {'cat_count': cat_count, 'cat_breed_graph': cat_breed_graph,
                                          'cat_breed_values': cat_breed_values, 'cat_gender_graph': cat_gender_graph,
                                          'cat_year_graph': cat_year_graph, 'cat_appearance_graph': cat_appearance_count[1:20],
@@ -109,6 +98,9 @@ def findParent(parent_id):
                 parent = Cat.objects.get(number__iregex=r"\y{0}\y".format(re.sub(r'\([^)]*\)', '', parent_id)))
             except Cat.DoesNotExist:
                 parent = None
+            except Cat.MultipleObjectsReturned:
+                # Should be fine, most same matches are duplicates, not different cats with same id
+                parent = Cat.objects.filter(number__iregex=r"\y{0}\y".format(re.sub(r'\([^)]*\)', '', parent_id))).first()
         except Cat.MultipleObjectsReturned:
             #Should be fine, most same matches are duplicates, not different cats with same id
             parent = Cat.objects.filter(number=parent_id).first()
@@ -146,7 +138,11 @@ def cat(request, cat_id):
             else:
                 row3.append(None)
                 row3.append(None)
-
+        #Find children
+        idList = single_cat.number.split('(')
+        cat_children = Cat.objects.all()
+        for word in idList:
+            cat_children = cat_children.filter(Q(father__icontains='(' + word) | Q(mother__icontains='(' + word))
         return render(request, 'cat.html', {'single_cat': single_cat,
                                             'cat_father': row1[0],
                                             'cat_mother': row1[1],
@@ -155,7 +151,8 @@ def cat(request, cat_id):
                                             'cat_grandfather1_father': row3[0],'cat_grandfather1_mother': row3[1],
                                             'cat_grandmother1_father': row3[2],'cat_grandmother1_mother': row3[3],
                                             'cat_grandfather2_father': row3[4], 'cat_grandfather2_mother': row3[5],
-                                            'cat_grandmother2_father': row3[6], 'cat_grandmother2_mother': row3[7]})
+                                            'cat_grandmother2_father': row3[6], 'cat_grandmother2_mother': row3[7],
+                                            'cat_children': cat_children, 'cat_children_amount': cat_children.count()})
 
     except Cat.DoesNotExist:
         raise Http404("Cat does not exist")
