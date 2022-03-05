@@ -86,6 +86,17 @@
 {% block content %}
     <div class="container" style="text-align: center">
     <h1>{{ single_cat }}</h1>
+    {% if translated_gender %}
+        <div class="btn-group" role="group" aria-label="Basic example">
+        <a href="?translate=No" class="btn btn-secondary btn-md active" role="button" aria-pressed="true">Original</a>
+            <a href=?translate=Yes" class="btn btn-primary btn-md active" role="button" aria-pressed="true">Translate</a>
+    </div>
+    {% else %}
+    <div class="btn-group" role="group" aria-label="Basic example">
+        <a href=?translate=No" class="btn btn-primary btn-md active" role="button" aria-pressed="true">Original</a>
+        <a href="?translate=Yes" class="btn btn-secondary btn-md active" role="button" aria-pressed="true">Translate</a>
+    </div>
+    {% endif %}
     <table class="table table-bordered">
       <thead>
         <tr>
@@ -97,10 +108,18 @@
       </thead>
       <tbody>
           <tr>
-            <td>{{ single_cat.breed }}</td>
+              {% if translated_breed %}
+                  <td>{{ translated_breed }}</td>
+              {% else %}
+                  <td>{{ single_cat.breed }}</td>
+              {%  endif %}
             <td>{{ single_cat.number }}</td>
             <td>{{ single_cat.birth }}</td>
-            <td>{{ single_cat.gender }}</td>
+            {% if translated_gender %}
+                  <td>{{ translated_gender }}</td>
+              {% else %}
+                  <td>{{ single_cat.gender }}</td>
+              {%  endif %}
           </tr>
       </tbody>
     </table>
@@ -114,7 +133,11 @@
       </thead>
       <tbody>
           <tr>
-            <td>{{ single_cat.fur }}</td>
+            {% if translated_fur %}
+              <td>{{ translated_fur }}</td>
+          {% else %}
+              <td>{{ single_cat.fur }}</td>
+              {%  endif %}
             <td>{{ single_cat.title }}</td>
             <td>{{ single_cat.site }}</td>
           </tr>
@@ -128,7 +151,11 @@
       </thead>
       <tbody>
           <tr>
-            <td>{{ single_cat.health }}</td>
+                        {% if translated_health %}
+              <td>{{ translated_health }}</td>
+          {% else %}
+              <td>{{ single_cat.health }}</td>
+              {%  endif %}
           </tr>
       </tbody>
     </table>

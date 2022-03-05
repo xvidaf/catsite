@@ -9,6 +9,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .forms import SearchForm
 import re
 import plotly.express as px
+from googletrans import Translator
 import pandas
 
 def home(request):
@@ -143,16 +144,49 @@ def cat(request, cat_id):
         cat_children = Cat.objects.all()
         for word in idList:
             cat_children = cat_children.filter(Q(father__icontains='(' + word) | Q(mother__icontains='(' + word))
-        return render(request, 'cat.html', {'single_cat': single_cat,
-                                            'cat_father': row1[0],
-                                            'cat_mother': row1[1],
-                                            'cat_grandfather1': row2[0],'cat_grandmother1': row2[1],
-                                            'cat_grandfather2': row2[2],'cat_grandmother2': row2[3],
-                                            'cat_grandfather1_father': row3[0],'cat_grandfather1_mother': row3[1],
-                                            'cat_grandmother1_father': row3[2],'cat_grandmother1_mother': row3[3],
-                                            'cat_grandfather2_father': row3[4], 'cat_grandfather2_mother': row3[5],
-                                            'cat_grandmother2_father': row3[6], 'cat_grandmother2_mother': row3[7],
-                                            'cat_children': cat_children, 'cat_children_amount': cat_children.count()})
+        translateGET = request.GET.get('translate', "No")
+        if translateGET == "Yes":
+            translator = Translator()
+            if single_cat.gender:
+                translated_gender = translator.translate(single_cat.gender, src='sv').text
+            else:
+                translated_gender = ""
+            if single_cat.breed:
+                translated_breed = translator.translate(single_cat.breed, src='sv').text
+            else:
+                translated_breed = ""
+            if single_cat.fur:
+                translated_fur = translator.translate(single_cat.fur, src='sv').text
+            else:
+                translated_fur = ""
+            if single_cat.health:
+                translated_health = translator.translate(single_cat.health, src='sv').text
+            else:
+                translated_health = ""
+            return render(request, 'cat.html', {'single_cat': single_cat,
+                                                'cat_father': row1[0],
+                                                'cat_mother': row1[1],
+                                                'cat_grandfather1': row2[0],'cat_grandmother1': row2[1],
+                                                'cat_grandfather2': row2[2],'cat_grandmother2': row2[3],
+                                                'cat_grandfather1_father': row3[0],'cat_grandfather1_mother': row3[1],
+                                                'cat_grandmother1_father': row3[2],'cat_grandmother1_mother': row3[3],
+                                                'cat_grandfather2_father': row3[4], 'cat_grandfather2_mother': row3[5],
+                                                'cat_grandmother2_father': row3[6], 'cat_grandmother2_mother': row3[7],
+                                                'cat_children': cat_children, 'cat_children_amount': cat_children.count(),
+                                                'translated_gender': translated_gender, 'translated_health': translated_health,
+                                                'translated_breed': translated_breed,
+                                                'translated_fur': translated_fur})
+        else:
+            return render(request, 'cat.html', {'single_cat': single_cat,
+                                                'cat_father': row1[0],
+                                                'cat_mother': row1[1],
+                                                'cat_grandfather1': row2[0],'cat_grandmother1': row2[1],
+                                                'cat_grandfather2': row2[2],'cat_grandmother2': row2[3],
+                                                'cat_grandfather1_father': row3[0],'cat_grandfather1_mother': row3[1],
+                                                'cat_grandmother1_father': row3[2],'cat_grandmother1_mother': row3[3],
+                                                'cat_grandfather2_father': row3[4], 'cat_grandfather2_mother': row3[5],
+                                                'cat_grandmother2_father': row3[6], 'cat_grandmother2_mother': row3[7],
+                                                'cat_children': cat_children, 'cat_children_amount': cat_children.count()})
 
     except Cat.DoesNotExist:
         raise Http404("Cat does not exist")
