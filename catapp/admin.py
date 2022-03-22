@@ -1,8 +1,9 @@
 from django.contrib import admin
-from .models import Cat
+from .models import Cat, AppearanceCodes
 import re
 from django.db.models import Count
-
+from import_export.admin import ImportExportModelAdmin
+from import_export import resources
 
 @admin.action(description='Decouple the healthstatus from the name')
 def healthstatus_fix(modeladmin, request, queryset):
@@ -59,4 +60,12 @@ class CatAdmin(admin.ModelAdmin):
     actions = [healthstatus_fix, delete_duplicates, title_fix]
 
 
+class AppearanceCodesResource(resources.ModelResource):
+    class Meta:
+        model = AppearanceCodes
+
+class AppearanceCodesAdmin(ImportExportModelAdmin):
+    resource_class = AppearanceCodesResource
+
 admin.site.register(Cat,CatAdmin)
+admin.site.register(AppearanceCodes,AppearanceCodesAdmin)

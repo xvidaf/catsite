@@ -100,3 +100,4 @@ XHL,Hairless hybrid
 XLH,Longhaired hybrid
 XSH,Shorthaired hybrid
 XXH,Hybrid
+BSH,British Shorthair

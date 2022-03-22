@@ -17,3 +17,14 @@ class Cat(models.Model):
     health = models.CharField('Health information about the cat', max_length=500, null=True)
     def __str__(self):
         return self.name
+
+
+class AppearanceCodes(models.Model):
+    BREED = models.CharField(max_length=1000, null=False)
+    CODE = models.CharField(max_length=1000, null=False)
+    English = models.CharField(max_length=1000, null=False)
+    Deutsch = models.CharField(max_length=1000, null=False)
+    Français = models.CharField(max_length=1000, null=False)
+
+    def __str__(self):
+        return self.CODE
