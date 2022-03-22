@@ -1,0 +1,102 @@
+ABL,American Bobtail Longhair
+ABS,American Bobtail Shorthair
+ABX,American Bobtail
+ABY,Abyssinian
+ACL,American Curl Longhair
+ACS,American Curl Shorthair
+ACX,American Curl
+AMS,American Shorthair
+AMW,American Wirehair
+ALH,Asian Longhair
+ASH,Asian Shorthair
+AXH,Asian
+AUM,Australian Mist
+BAL,Balinese
+BEN,Bengal
+BML,Burmilla
+BOL,Bombay Longhair
+BOS,Bombay Shorthair
+BOS,Bombay
+BRI,British Shorthair
+BRL,British Longhair
+BRX,Bohemian Rex
+BUR,Burmese
+CEY,Ceylon
+CHA,Chartreux
+CHS,Chausie
+CRX,Cornish Rex
+CYM,Cymric
+DRX,Devon Rex
+DSP,Don Sphynx
+EUR,European Shorthair
+EXO,Exotic Shorthair
+GRX,German Rex
+HCL,Domestic cat longhaired
+HCS,Domestic cat shorthaired
+HCX,Domestic cat
+JBL,Japanese Bobtail Longhair
+JBT,Japanese Bobtail Shorthair
+JBX,Japanese Bobtail
+KBL,Kurilean Bobtail Longhair
+KBS,Kurilean Bobtail Shorthair
+KBS,Kurilean Bobtail
+KMA,Khao Manee
+KOR,Korat
+LPL,La Perm Longhair
+LPS,La Perm Shorthair
+LYK,Lykoi
+MAN,Manx
+MAU,Egyptian Mau
+MCO,Maine Coon
+MNL,Munchkin longhaired variety
+MNS,Munchkin shorthaired variety
+MNX,Munchkin
+NEB,Nebelung
+NBS,Nebelung shorthaired variety
+NEM,Neva Masquerade
+NFO,Norwegian Forest Cat
+OCI,Ocicat
+OLH,Oriental Longhair
+OSH,Oriental Shorthair
+PBL,Pixie-Bob Longhair
+PBS,Pixie-Bob Shorthair
+PBX,Pixie-Bob
+PEB,Peterbald
+PER,Persian
+RAG,Ragdoll 
+RGD,Ragdoll
+RGM,Ragamuffin
+RUS,Russian Blue
+SAV,Savannah
+SBI,Birman LH (Sacred Birman)
+SBS,Birman SH (Temple Cat)
+SFL,Scottish Fold Longhair
+SFS,Scottish Fold Shorthair
+SFS,Scottish Fold
+SGT,Serengeti
+SIA,Siamese
+SIB,Siberian
+SIN,Singapura
+SNO,Snowshoe
+SOK,Sokoke
+SOM,Somali
+SPH,Sphynx
+SRL,Selkirk Rex Longhair
+SRS,Selkirk Rex Shorthair
+SRX,Selkirk Rex
+THA,Thai
+TIF,Tiffany
+TOL,Tonkinese Longhair
+TOS,Tonkinese Shorthair
+TOX,Tonkinese
+TOG,Toyger
+TRX,Tennessee Rex
+TUA,Turkish Angora
+TUV,Turkish Van
+UKL,Ukrainian Levkoy
+URL,Ural Rex Longhair
+URX,Ural Rex Shorthair
+XHL,Hairless hybrid
+XLH,Longhaired hybrid
+XSH,Shorthaired hybrid
+XXH,Hybrid

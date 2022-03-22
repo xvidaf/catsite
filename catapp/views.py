@@ -152,7 +152,20 @@ def cat(request, cat_id):
             else:
                 translated_gender = ""
             if single_cat.breed:
-                translated_breed = translator.translate(single_cat.breed, src='sv').text
+                breednames = {}
+                with open("catapp/breeds.txt") as f:
+                    for line in f:
+                        print(line.split(sep=','))
+                        (key, val) = line.split(sep=',')
+                        breednames[key] = val
+                breedCode = re.search('\(([^)]+)', single_cat.breed).group(1)
+                if breedCode:
+                    if breedCode in breednames:
+                        translated_breed = breednames.get(breedCode)
+                    else:
+                        translated_breed = translator.translate(single_cat.breed, src='sv').text
+                else:
+                    translated_breed = translator.translate(single_cat.breed, src='sv').text
             else:
                 translated_breed = ""
             if single_cat.fur:
