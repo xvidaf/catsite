@@ -4,7 +4,7 @@ from django.db.models import F, Count, Q
 from django.db.models.functions import ExtractYear
 from django.http import Http404
 from django.shortcuts import render, redirect
-from .models import Cat
+from .models import Cat, Breeds, AppearanceCodes
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .forms import SearchForm
 import re
@@ -145,31 +145,43 @@ def cat(request, cat_id):
         for word in idList:
             cat_children = cat_children.filter(Q(father__icontains='(' + word) | Q(mother__icontains='(' + word))
         translateGET = request.GET.get('translate', "No")
-        if translateGET == "Yes":
+        if translateGET in ('EN', 'GR', 'FR'):
             translator = Translator()
             if single_cat.gender:
-                translated_gender = translator.translate(single_cat.gender, src='sv').text
+                if translateGET == 'EN':
+                    translated_gender = translator.translate(single_cat.gender, src='sv').text
+                elif translateGET == 'GR':
+                    translated_gender = translator.translate(single_cat.gender, src='sv', dest='de').text
+                elif translateGET == 'FR':
+                    translated_gender = translator.translate(single_cat.gender, src='sv', dest='fr').text
             else:
                 translated_gender = ""
             if single_cat.breed:
-                breednames = {}
-                with open("catapp/breeds.txt") as f:
-                    for line in f:
-                        print(line.split(sep=','))
-                        (key, val) = line.split(sep=',')
-                        breednames[key] = val
                 breedCode = re.search('\(([^)]+)', single_cat.breed).group(1)
-                if breedCode:
-                    if breedCode in breednames:
-                        translated_breed = breednames.get(breedCode)
-                    else:
-                        translated_breed = translator.translate(single_cat.breed, src='sv').text
-                else:
+                try:
+                    breed = Breeds.objects.get(CODE=breedCode)
+                    if translateGET == 'EN':
+                        translated_breed = breed.English
+                    elif translateGET == 'GR':
+                        translated_breed = breed.Deutsch
+                    elif translateGET == 'FR':
+                        translated_breed = breed.Français
+                except:
                     translated_breed = translator.translate(single_cat.breed, src='sv').text
             else:
                 translated_breed = ""
             if single_cat.fur:
-                translated_fur = translator.translate(single_cat.fur, src='sv').text
+                furCode = re.search('\(([^)]+)', single_cat.fur).group(1)
+                try:
+                    fur = AppearanceCodes.objects.get(BREED__icontains=re.search('\(([^)]+)', single_cat.breed).group(1), CODE=furCode)
+                    if translateGET == 'EN':
+                        translated_fur = fur.English
+                    elif translateGET == 'GR':
+                        translated_fur = fur.Deutsch
+                    elif translateGET == 'FR':
+                        translated_fur = fur.Français
+                except:
+                    translated_fur = translator.translate(single_cat.fur, src='sv').text
             else:
                 translated_fur = ""
             if single_cat.health:
@@ -187,7 +199,7 @@ def cat(request, cat_id):
                                                 'cat_grandmother2_father': row3[6], 'cat_grandmother2_mother': row3[7],
                                                 'cat_children': cat_children, 'cat_children_amount': cat_children.count(),
                                                 'translated_gender': translated_gender, 'translated_health': translated_health,
-                                                'translated_breed': translated_breed,
+                                                'translated_breed': translated_breed, 'translation': translateGET,
                                                 'translated_fur': translated_fur})
         else:
             return render(request, 'cat.html', {'single_cat': single_cat,

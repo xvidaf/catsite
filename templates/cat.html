@@ -86,15 +86,33 @@
 {% block content %}
     <div class="container" style="text-align: center">
     <h1>{{ single_cat }}</h1>
-    {% if translated_gender %}
+    {% if translation == 'EN' %}
         <div class="btn-group" role="group" aria-label="Basic example">
-        <a href="?translate=No" class="btn btn-secondary btn-md active" role="button" aria-pressed="true">Original</a>
-            <a href=?translate=Yes" class="btn btn-primary btn-md active" role="button" aria-pressed="true">Translate</a>
+            <a href=?translate=No" class="btn btn-secondary btn-md active" role="button" aria-pressed="true">Svenska</a>
+            <a href="?translate=EN" class="btn btn-primary btn-md active" role="button" aria-pressed="true">English</a>
+            <a href="?translate=GR" class="btn btn-secondary btn-md active" role="button" aria-pressed="true">Deutsch</a>
+            <a href="?translate=FR" class="btn btn-secondary btn-md active" role="button" aria-pressed="true">Français</a>
+        </div>
+    {% elif translation == 'GR' %}
+    <div class="btn-group" role="group" aria-label="Basic example">
+        <a href=?translate=No" class="btn btn-secondary btn-md active" role="button" aria-pressed="true">Svenska</a>
+        <a href="?translate=EN" class="btn btn-secondary btn-md active" role="button" aria-pressed="true">English</a>
+        <a href="?translate=GR" class="btn btn-primary btn-md active" role="button" aria-pressed="true">Deutsch</a>
+        <a href="?translate=FR" class="btn btn-secondary btn-md active" role="button" aria-pressed="true">Français</a>
+    </div>
+    {% elif translation == 'FR' %}
+    <div class="btn-group" role="group" aria-label="Basic example">
+        <a href=?translate=No" class="btn btn-secondary btn-md active" role="button" aria-pressed="true">Svenska</a>
+        <a href="?translate=EN" class="btn btn-secondary btn-md active" role="button" aria-pressed="true">English</a>
+        <a href="?translate=GR" class="btn btn-secondary btn-md active" role="button" aria-pressed="true">Deutsch</a>
+        <a href="?translate=FR" class="btn btn-primary btn-md active" role="button" aria-pressed="true">Français</a>
     </div>
     {% else %}
     <div class="btn-group" role="group" aria-label="Basic example">
-        <a href=?translate=No" class="btn btn-primary btn-md active" role="button" aria-pressed="true">Original</a>
-        <a href="?translate=Yes" class="btn btn-secondary btn-md active" role="button" aria-pressed="true">Translate</a>
+        <a href=?translate=No" class="btn btn-primary btn-md active" role="button" aria-pressed="true">Svenska</a>
+        <a href="?translate=EN" class="btn btn-secondary btn-md active" role="button" aria-pressed="true">English</a>
+        <a href="?translate=GR" class="btn btn-secondary btn-md active" role="button" aria-pressed="true">Deutsch</a>
+        <a href="?translate=FR" class="btn btn-secondary btn-md active" role="button" aria-pressed="true">Français</a>
     </div>
     {% endif %}
     <table class="table table-bordered">

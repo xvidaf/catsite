@@ -27,4 +27,13 @@ class AppearanceCodes(models.Model):
     Français = models.CharField(max_length=1000, null=False)
 
     def __str__(self):
+        return self.BREED
+
+class Breeds(models.Model):
+    CODE = models.CharField(max_length=1000, null=False)
+    English = models.CharField(max_length=1000, null=False)
+    Deutsch = models.CharField(max_length=1000, null=False)
+    Français = models.CharField(max_length=1000, null=False)
+
+    def __str__(self):
         return self.CODE

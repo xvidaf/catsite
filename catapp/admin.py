@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Cat, AppearanceCodes
+from .models import Cat, AppearanceCodes, Breeds
 import re
 from django.db.models import Count
 from import_export.admin import ImportExportModelAdmin
@@ -87,5 +87,13 @@ class AppearanceCodesAdmin(ImportExportModelAdmin):
     resource_class = AppearanceCodesResource
     actions = [breedcodes_fix]
 
-admin.site.register(Cat,CatAdmin)
-admin.site.register(AppearanceCodes,AppearanceCodesAdmin)
+class BreedsResource(resources.ModelResource):
+    class Meta:
+        model = Breeds
+
+class BreedsAdmin(ImportExportModelAdmin):
+    resource_class = BreedsResource
+
+admin.site.register(Cat, CatAdmin)
+admin.site.register(AppearanceCodes, AppearanceCodesAdmin)
+admin.site.register(Breeds, BreedsAdmin)
