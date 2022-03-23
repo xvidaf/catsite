@@ -75,10 +75,6 @@ def breedcodes_fix(modeladmin, request, queryset):
 
 
 
-class CatAdmin(admin.ModelAdmin):
-    actions = [healthstatus_fix, delete_duplicates, title_fix]
-
-
 class AppearanceCodesResource(resources.ModelResource):
     class Meta:
         model = AppearanceCodes
@@ -93,6 +89,15 @@ class BreedsResource(resources.ModelResource):
 
 class BreedsAdmin(ImportExportModelAdmin):
     resource_class = BreedsResource
+
+class CatResource(resources.ModelResource):
+    class Meta:
+        model = Cat
+
+class CatAdmin(ImportExportModelAdmin):
+    actions = [healthstatus_fix, delete_duplicates, title_fix]
+    resource_class = CatResource
+
 
 admin.site.register(Cat, CatAdmin)
 admin.site.register(AppearanceCodes, AppearanceCodesAdmin)
