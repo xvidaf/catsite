@@ -56,6 +56,25 @@ def title_fix(modeladmin, request, queryset):
                 cat.title = cat.title
                 cat.save()
 
+@admin.action(description='Fix leading spaces, remove cat breed from code')
+def breedcodes_fix(modeladmin, request, queryset):
+    for code in queryset:
+        if code.CODE:
+            code.CODE = re.sub(r'[A-Z]', '', code.CODE)
+            code.CODE = code.CODE.replace('/', '')
+            code.CODE = code.CODE.strip()
+        if code.English:
+            code.English = code.English.strip()
+        if code.Deutsch:
+            code.Deutsch = code.Deutsch.strip()
+        if code.Français:
+            code.Français = code.Français.strip()
+        code.save()
+
+
+
+
+
 class CatAdmin(admin.ModelAdmin):
     actions = [healthstatus_fix, delete_duplicates, title_fix]
 
@@ -66,6 +85,7 @@ class AppearanceCodesResource(resources.ModelResource):
 
 class AppearanceCodesAdmin(ImportExportModelAdmin):
     resource_class = AppearanceCodesResource
+    actions = [breedcodes_fix]
 
 admin.site.register(Cat,CatAdmin)
 admin.site.register(AppearanceCodes,AppearanceCodesAdmin)
