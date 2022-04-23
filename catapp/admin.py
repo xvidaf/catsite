@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Cat, AppearanceCodes, Breeds
+from .models import Cat, Breeds, AppearanceCodes
 import re
 from django.db.models import Count
 from import_export.admin import ImportExportModelAdmin
@@ -30,11 +30,11 @@ def healthstatus_fix(modeladmin, request, queryset):
                 #print("New name will be:" + newname)
                 #print("Health status will be:" + found[0])
 
-#TODO FINISH
 @admin.action(description='Delete duplicates')
 def delete_duplicates(modeladmin, request, queryset):
-    duplicate_names = queryset.values('name').annotate(name_count=Count('name')).filter(name_count__gt=1)
-    print(duplicate_names)
+    for row in Cat.objects.all().reverse():
+        if Cat.objects.filter(name=row.name, breed=row.breed, number=row.number, gender=row.gender).count() > 1:
+            row.delete()
 
 
 @admin.action(description='Decouple titles from name')
@@ -72,27 +72,29 @@ def breedcodes_fix(modeladmin, request, queryset):
         code.save()
 
 
-
-
-
 class AppearanceCodesResource(resources.ModelResource):
     class Meta:
         model = AppearanceCodes
+
 
 class AppearanceCodesAdmin(ImportExportModelAdmin):
     resource_class = AppearanceCodesResource
     actions = [breedcodes_fix]
 
+
 class BreedsResource(resources.ModelResource):
     class Meta:
         model = Breeds
 
+
 class BreedsAdmin(ImportExportModelAdmin):
     resource_class = BreedsResource
+
 
 class CatResource(resources.ModelResource):
     class Meta:
         model = Cat
+
 
 class CatAdmin(ImportExportModelAdmin):
     actions = [healthstatus_fix, delete_duplicates, title_fix]

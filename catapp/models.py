@@ -29,6 +29,7 @@ class AppearanceCodes(models.Model):
     def __str__(self):
         return self.BREED
 
+
 class Breeds(models.Model):
     CODE = models.CharField(max_length=1000, null=False)
     English = models.CharField(max_length=1000, null=False)
