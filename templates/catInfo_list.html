@@ -1,0 +1,16 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="container" style="text-align: center">
+        <h2>Here you can see {{ cat_count }} breeds of cats, and learn something about them ! </h2>
+          {% for cat in cats %}
+            <li class="list-group-item"><a href="{% url 'breedInfo' cat.id%}">{{ cat.Name }}</a></li>
+          {% endfor %}
+        </div>
+      </tbody>
+    </table>
+    </div>
+
+{%  endblock %}

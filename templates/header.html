@@ -18,6 +18,9 @@
         <li class="nav-item">
           <a class="nav-link active" href="{% url 'advanced_search' %}">Advanced Search</a>
         </li>
+          <li class="nav-item">
+          <a class="nav-link active" href="{% url 'catInfo' %}">Breeds</a>
+        </li>
       </ul>
       <form class="d-flex" method="get" action="{% url 'search_cat' %}">
         <input class="form-control me-2" type="search" placeholder="Search for a Cat by Name" aria-label="Search" name="cat_name">

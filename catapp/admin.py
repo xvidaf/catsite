@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Cat, Breeds, AppearanceCodes
+from .models import Cat, Breeds, AppearanceCodes, CatInfo
 import re
 from django.db.models import Count
 from import_export.admin import ImportExportModelAdmin
@@ -104,3 +104,4 @@ class CatAdmin(ImportExportModelAdmin):
 admin.site.register(Cat, CatAdmin)
 admin.site.register(AppearanceCodes, AppearanceCodesAdmin)
 admin.site.register(Breeds, BreedsAdmin)
+admin.site.register(CatInfo)

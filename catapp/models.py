@@ -38,3 +38,17 @@ class Breeds(models.Model):
 
     def __str__(self):
         return self.CODE
+
+
+class CatInfo(models.Model):
+    CODE = models.CharField(max_length=10, null=False)
+    Name = models.CharField(max_length=100, null=False)
+    URL = models.CharField(max_length=1000, null=False)
+    Recognized = models.CharField(max_length=100, null=False)
+    ImageURL = models.CharField(max_length=1000, null=False)
+    FifeURL = models.CharField(max_length=1000, null=False)
+    Deutsch = models.CharField(max_length=100, null=False)
+    Francais = models.CharField(max_length=100, null=False)
+
+    def __str__(self):
+        return self.CODE

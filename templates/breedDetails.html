@@ -1,0 +1,19 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container" style="text-align: center">
+    <h1>{{ single_cat.Name }}</h1>
+    <h4>Breed name in German: {{ single_cat.Deutsch }}</h4>
+    <h4>Breed name in French: {{ single_cat.Francais }} </h4>
+    <h4>FIFE code: {{ single_cat.CODE }} </h4>
+    <h4>The breed was recognized by FIFE in {{ single_cat.Recognized }} </h4>
+    {{ summary }}
+        <br> <br>
+     <img style="max-width: calc(100% - 20px);" src="{{ single_cat.ImageURL }}" alt="An image of a cat should be here, if it is not, something is wrong.">
+        <br> <br>
+    <h4>If you want to learn all there is to learn about the {{ single_cat.Name }}, consult the official FIFE breed document at: <a href={{ single_cat.FifeURL}}>{{ single_cat.FifeURL }}</a></h4>
+        <br> <br>
+    Source: <a href={{ source }}>{{ source }}</a>
+    </div>
+{%  endblock %}

@@ -4,13 +4,15 @@ from django.db.models import F, Count, Q
 from django.db.models.functions import ExtractYear
 from django.http import Http404
 from django.shortcuts import render, redirect
-from .models import Cat, Breeds, AppearanceCodes
+from .models import Cat, Breeds, AppearanceCodes, CatInfo
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .forms import SearchForm
 import re
 import plotly.express as px
 from googletrans import Translator
 import pandas
+
+import wikipediaapi
 
 def home(request):
     cat_count = Cat.objects.all().count()
@@ -292,3 +294,23 @@ def search_cat(request):
 def advanced_search(request):
     return render(request, 'advanced_search.html', {'search_form': SearchForm})
 
+
+def cat_info_list(request):
+    cat_all = CatInfo.objects.all().order_by('id')
+    cat_count = cat_all.count()
+    if request.method == "GET":
+        return render(request, 'catInfo_list.html', { 'cats': cat_all, 'cat_count': cat_count})
+    else:
+        return redirect(request.META.get('HTTP_REFERER'))
+
+def breed_info(request, cat_id):
+    try:
+        single_cat = CatInfo.objects.get(pk=cat_id)
+        wiki_wiki = wikipediaapi.Wikipedia('en')
+
+        page_py = wiki_wiki.page(single_cat.URL)
+
+        return render(request, 'breedDetails.html', {'single_cat': single_cat, 'summary': page_py.summary,
+                                                     'source': page_py.fullurl})
+    except CatInfo.DoesNotExist:
+        raise Http404("Breed does not exist")
