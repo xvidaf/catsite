@@ -16,7 +16,6 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # Quick-start development settings - unsuitable for production
@@ -26,7 +25,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 SECRET_KEY = 'django-insecure-nsvgf*eg*l4^o8i^e)=(lwg0)l%l0le+w%l28a-x2-^64g621)'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
