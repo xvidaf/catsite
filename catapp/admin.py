@@ -5,6 +5,9 @@ from django.db.models import Count
 from import_export.admin import ImportExportModelAdmin
 from import_export import resources
 
+from .views import findParent
+
+
 @admin.action(description='Decouple the healthstatus from the name')
 def healthstatus_fix(modeladmin, request, queryset):
     #Cats with healtinfo have H in the name, we remove it
@@ -72,6 +75,25 @@ def breedcodes_fix(modeladmin, request, queryset):
         code.save()
 
 
+@admin.action(description='Add foreign key based on father and mother column')
+def add_cat_foreign(modeladmin, request, queryset):
+    #Crete a foreign key from the parents of the cat
+    newQuerySet = queryset.filter(fatherLink__isnull=True,motherLink__isnull=True)
+    newQuerySet = newQuerySet.order_by('id')
+    for cat in newQuerySet:
+        print(cat.id)
+        if cat.father and not cat.fatherLink:
+            father = findParent(cat.father)
+            if father:
+                cat.fatherLink = father
+                cat.save(update_fields=['fatherLink'])
+        if cat.mother and not cat.motherLink:
+            mother = findParent(cat.mother)
+            if mother:
+                cat.motherLink = mother
+                cat.save(update_fields=['motherLink'])
+
+
 class AppearanceCodesResource(resources.ModelResource):
     class Meta:
         model = AppearanceCodes
@@ -97,8 +119,9 @@ class CatResource(resources.ModelResource):
 
 
 class CatAdmin(ImportExportModelAdmin):
-    actions = [healthstatus_fix, delete_duplicates, title_fix]
+    actions = [healthstatus_fix, delete_duplicates, title_fix, add_cat_foreign]
     resource_class = CatResource
+    raw_id_fields = ['fatherLink', 'motherLink']
 
 
 admin.site.register(Cat, CatAdmin)
