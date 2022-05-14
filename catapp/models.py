@@ -1,7 +1,6 @@
 from django.db import models
 
 
-
 class Cat(models.Model):
     internalid = models.IntegerField('Cat serial number from the csv', null=True)
     name = models.CharField('Name of the cat', max_length=1000, null=True)
@@ -15,8 +14,14 @@ class Cat(models.Model):
     mother = models.CharField('Identification of the Mother of the cat', max_length=200, null=True)
     site = models.CharField('Site from which the cat is from', max_length=20, null=True)
     health = models.CharField('Health information about the cat', max_length=500, null=True)
+    fatherLink = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True, related_name="fatherLink_cat")
+    motherLink = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True, related_name="motherLink_cat")
+
     def __str__(self):
-        return self.name
+        if self.name:
+            return self.name
+        else:
+            return "NOT FOUND"
 
 
 class AppearanceCodes(models.Model):

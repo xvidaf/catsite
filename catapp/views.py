@@ -126,7 +126,6 @@ def cat(request, cat_id):
             row1.append(findParent(single_cat.mother))
         else:
             row1.append(None)
-
         for parent in row1:
             if parent:
                 row2.append(findParent(parent.father))
@@ -142,10 +141,16 @@ def cat(request, cat_id):
                 row3.append(None)
                 row3.append(None)
         #Find children
-        idList = single_cat.number.split('(')
+        if single_cat.number:
+            idList = single_cat.number.split('(')
+        else:
+            idList = None
         cat_children = Cat.objects.all()
-        for word in idList:
-            cat_children = cat_children.filter(Q(father__icontains='(' + word) | Q(mother__icontains='(' + word))
+        if idList:
+            for word in idList:
+                cat_children = cat_children.filter(Q(father__icontains='(' + word) | Q(mother__icontains='(' + word))
+        else:
+            cat_children = Cat.objects.none()
         translateGET = request.GET.get('translate', "No")
         if translateGET in ('EN', 'GR', 'FR'):
             translator = Translator()
